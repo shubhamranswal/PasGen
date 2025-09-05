@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>PasGen – Generate ultra-secure passwords, right in your browser.</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="PasGen – Generate ultra-secure passwords, right in your browser. Built with ❤️ by Shubham Singh Ranswal." />
+    <meta name="keywords"
+        content="password generator, secure password, PasGen, PasPas, Shubham Ranswal, open source, privacy" />
+    <meta name="author" content="Shubham Singh Ranswal" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="PasGen – Generate ultra-secure passwords, right in your browser." />
+    <meta property="og:description"
+        content="PasGen is a modern, secure, and privacy-friendly password generator. Built by Shubham Singh Ranswal." />
+    <meta property="og:image" content="utils/ui/assets/og-image.png" />
+    <meta property="og:url" content="https://shubhamranswal.github.io/PasGen/" />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="PasGen – Generate ultra-secure passwords, right in your browser." />
+    <meta name="twitter:description"
+        content="A modern, private, and open-source password generator. Built by Shubham Singh Ranswal." />
+    <meta name="twitter:image" content="utils/ui/assets/og-image.png" />
+
+    <link rel="icon" href="https://shubham-ranswal.web.app/portfolio_utilities/images/code.png" />
+    <link rel="stylesheet" href="utils/ui/style.css" />
+</head>
+
+<body>
+
+    <header>
+        <h1><span class="highlight">PasGen</span></h1>
+        <p class="tagline">Create ultra-secure, customizable passwords instantly — no data ever leaves your device.</p>
+        <p class="intro">
+            <strong>PasGen</strong> is a modern, powerful, and privacy-focused password generator that lets you
+            instantly create strong, unique, and customizable passwords and passphrases. Designed for simplicity and
+            security, PasGen helps you stay safe online — without the complexity.
+        </p>
+
+        <ul class="feature-list">
+            <li>⚡ Lightning-fast generation</li>
+            <li>🔒 100% offline & private</li>
+            <li>🎯 Tailored to your security needs</li>
+        </ul>
+    </header>
+
+    <main>
+        <section class="generator">
+            <label for="length">Password Length: <span id="length-val">16</span></label>
+            <input type="range" id="length" min="4" max="65" value="16" />
+
+            <div class="basic-options">
+                <fieldset>
+                    <legend>Include Characters</legend>
+                    <label><input type="checkbox" id="upper" checked /> Uppercase (A-Z)</label>
+                    <label><input type="checkbox" id="lower" checked /> Lowercase (a-z)</label>
+                    <label><input type="checkbox" id="number" checked /> Numbers (0-9)</label>
+                    <label><input type="checkbox" id="symbol" checked /> Symbols (!@#$...)</label>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Options</legend>
+                    <label><input type="checkbox" id="no-repeat" /> No repeating characters</label>
+                    <label><input type="checkbox" id="no-seq" /> No sequential characters</label>
+                    <label><input type="checkbox" id="exclude-ambig" /> Exclude ambiguous chars (l,1,I,0,O)</label>
+                    <label><input type="checkbox" id="pronounceable" /> Pronounceable password</label>
+                </fieldset>
+            </div>
+
+            <button id="toggle-advanced" aria-expanded="false" aria-controls="advanced">▼ Show Advanced
+                Settings</button>
+
+            <fieldset id="advanced" style="display:none;" aria-hidden="true">
+                <legend>Advanced Options</legend>
+                <label for="include-chars">Include specific characters: <input type="text" id="include-chars" placeholder="e.g. @#%" /></label>
+                <label for="exclude-chars">Exclude specific characters: <input type="text" id="exclude-chars" placeholder="e.g. l1I0O" /></label>
+                <label for="pattern">Password pattern (L=letter, N=number, S=symbol, !=any, others literals): <input type="text" id="pattern" placeholder="e.g. LNSL!" /></label>
+                <label style="display: block;"><input type="checkbox" id="passphrase" /> Generate passphrase</label>
+            </fieldset>
+
+            <div class="output-group">
+                <textarea id="output" rows="1" readonly aria-label="Generated Password"
+                    style="overflow:hidden; resize:none;">Generate super secure passwords...</textarea>
+                <button id="copy" aria-label="Copy Password">📋</button>
+            </div>
+
+            <div id="snackbar" role="status" aria-live="polite">Password copied!</div>
+
+            <div class="strength">
+                <div id="strength-bar"></div>
+            </div>
+            <span id="strength-text">Password Strength</span>
+
+        </section>
+
+        <section class="faq">
+            <h2>FAQ</h2>
+            <div class="faq-item">
+                <button aria-expanded="false" aria-controls="faq1">What is a pronounceable password?</button>
+                <div id="faq1" class="faq-answer" aria-hidden="true" style="display:none;">
+                    A pronounceable password uses easy-to-pronounce syllables to form memorable strings. When
+                    enabled,
+                    other options like symbols or patterns are disabled to keep it simple.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button aria-expanded="false" aria-controls="faq2">How does the pattern option work?</button>
+                <div id="faq2" class="faq-answer" aria-hidden="true" style="display:none;">
+                    Use letters to define structure:
+                    <ul>
+                        <li><strong>L</strong>: Letter (A-Z or a-z)</li>
+                        <li><strong>N</strong>: Number (0–9)</li>
+                        <li><strong>S</strong>: Symbol (e.g., @, #, $)</li>
+                        <li><strong>!</strong>: Any character</li>
+                        <li>Other characters are treated literally (e.g., dashes or spaces)</li>
+                    </ul>
+                    Example: <code>L-N-S-L!</code> generates a letter, dash, number, symbol, letter, and any
+                    character.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button aria-expanded="false" aria-controls="faq3">What is a passphrase?</button>
+                <div id="faq3" class="faq-answer" aria-hidden="true" style="display:none;">
+                    A passphrase is a set of easy-to-remember words separated by dashes (like:
+                    <code>sunny-dragon-planet-tiger</code>). It’s secure if it’s long enough.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button aria-expanded="false" aria-controls="faq4">What do “Include” and “Exclude” fields
+                    do?</button>
+                <div id="faq4" class="faq-answer" aria-hidden="true" style="display:none;">
+                    The “Include” field ensures those characters appear in the password.
+                    The “Exclude” field removes those characters from the character pool.
+                    <strong>Note:</strong> If the same character is in both, it will be excluded.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button aria-expanded="false" aria-controls="faq5">What are “No Repeat” and “No
+                    Sequential”?</button>
+                <div id="faq5" class="faq-answer" aria-hidden="true" style="display:none;">
+                    <ul>
+                        <li><strong>No Repeat:</strong> Prevents characters from being reused in the password.</li>
+                        <li><strong>No Sequential:</strong> Blocks common sequences like <code>abc</code> or
+                            <code>123</code>.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button aria-expanded="false" aria-controls="faq6">Why exclude ambiguous characters?</button>
+                <div id="faq6" class="faq-answer" aria-hidden="true" style="display:none;">
+                    Characters like <code>l</code>, <code>1</code>, <code>I</code>, <code>0</code>, and
+                    <code>O</code>
+                    can look similar and cause confusion. Excluding them makes your password easier to read and type
+                    correctly.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button aria-expanded="false" aria-controls="faq7">How strong is the generated password?</button>
+                <div id="faq7" class="faq-answer" aria-hidden="true" style="display:none;">
+                    Strength is estimated based on entropy — longer and more diverse passwords are stronger. A
+                    strength
+                    bar will indicate whether it's weak, moderate, or strong.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button aria-expanded="false" aria-controls="faq8">Can I copy the password easily?</button>
+                <div id="faq8" class="faq-answer" aria-hidden="true" style="display:none;">
+                    Yes! Just click the “📋” button next to the password to instantly copy it to your
+                    clipboard.
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Built with ❤️ by <a href="https://shubham-ranswal.web.app/" target="_blank" rel="noopener noreferrer">Shubham
+                Singh Ranswal</a></p>
+        <p>
+            © 2025 Shubham Singh Ranswal |
+            <a href="https://www.linkedin.com/in/shubhamranswal" target="_blank" rel="noopener"
+                aria-label="LinkedIn">LinkedIn</a> |
+            <a href="https://github.com/shubhamranswal" target="_blank" rel="noopener" aria-label="GitHub">GitHub</a>
+        </p>
+    </footer>
+
+    <!-- Theme toggle button -->
+    <button id="theme-toggle" aria-label="Toggle light and dark theme" title="Toggle light/dark theme"
+        class="theme-toggle">
+        <!-- SVG icon inserted by JS -->
+    </button>
+
+    <script src="utils/script.js" defer></script>
+</body>
+
+</html>
